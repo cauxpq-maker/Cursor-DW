@@ -108,8 +108,44 @@ def chart_hotel_revpar():
     plt.close(fig)
 
 
+def chart_catering():
+    """图4：餐饮收入增速收窄与场景分层"""
+    fig, axes = plt.subplots(1, 2, figsize=(9.2, 4.0))
+    ax = axes[0]
+    months = ["1-2月", "一季度", "1-4月", "1-5月", "上半年"]
+    growth = [4.8, 4.2, 3.8, 3.1, 2.8]
+    ax.plot(months, growth, color=BLUE, marker="o", lw=2.2, markersize=7)
+    for x, y in zip(months, growth):
+        ax.text(x, y + 0.12, f"{y}%", ha="center", fontsize=9)
+    ax.set_ylim(2.0, 5.5)
+    ax.set_ylabel("累计同比增速（%）")
+    ax.set_title("图4a  全国餐饮收入累计增速逐月收窄", fontsize=11, pad=10)
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.grid(axis="y", color="#e2e8f0", lw=0.6)
+
+    ax = axes[1]
+    labels = ["工作餐/\n一人食", "外卖/\n即时零售", "小吃/\n快餐", "正餐/\n宴会", "夜经济/\n烧烤宵夜"]
+    weekday = [9, 8, 8, 3, 5]
+    holiday = [4, 5, 6, 9, 8]
+    x = range(len(labels))
+    w = 0.35
+    ax.bar([i - w/2 for i in x], weekday, width=w, label="平日刚需强度", color=GRAY)
+    ax.bar([i + w/2 for i in x], holiday, width=w, label="假期改善强度", color="#f59e0b")
+    ax.set_xticks(list(x))
+    ax.set_xticklabels(labels, fontsize=9)
+    ax.set_ylim(0, 11)
+    ax.set_ylabel("场景强度（示意评分）")
+    ax.set_title("图4b  平日刚需 vs 假期改善：场景分层", fontsize=11, pad=10)
+    ax.legend(frameon=False, fontsize=9, loc="upper right")
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUT, "chart4_catering.png"), dpi=200)
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     chart_volume_vs_price()
     chart_visits_spend()
     chart_hotel_revpar()
+    chart_catering()
     print("charts generated:", os.listdir(OUT))
