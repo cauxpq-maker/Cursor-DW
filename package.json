@@ -1,0 +1,23 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "丹东城市旅游战略规划材料生成工具",
+  "main": "ppt/generate.js",
+  "scripts": {
+    "build:ppt": "node ppt/generate.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cauxpq-maker/cursor-dw.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cauxpq-maker/cursor-dw/issues"
+  },
+  "homepage": "https://github.com/cauxpq-maker/cursor-dw#readme",
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
+  }
+}
