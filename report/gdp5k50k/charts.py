@@ -18,9 +18,9 @@ OUT = os.path.join(BASE, "charts")
 DATA = os.path.join(BASE, "data")
 os.makedirs(OUT, exist_ok=True)
 
-C = {"CHN": "#dc2626", "JPN": "#2563eb", "KOR": "#059669", "USA": "#64748b"}
-NAME = {"CHN": "中国", "JPN": "日本", "KOR": "韩国", "USA": "美国"}
-T5K = {"USA": 1969, "JPN": 1976, "KOR": 1989, "CHN": 2011}  # 名义人均GDP首次≥5000美元
+C = {"CHN": "#dc2626", "JPN": "#2563eb", "KOR": "#059669", "USA": "#64748b", "DEU": "#b45309"}
+NAME = {"CHN": "中国", "JPN": "日本", "KOR": "韩国", "USA": "美国", "DEU": "德国"}
+T5K = {"USA": 1969, "DEU": 1973, "JPN": 1976, "KOR": 1989, "CHN": 2011}  # 名义人均GDP首次≥5000美元
 
 
 def load(name):
@@ -36,10 +36,10 @@ def kfmt(x, _):
 def chart1_trajectory():
     gdp = load("gdp_pc_usd")
     fig, ax = plt.subplots(figsize=(9.2, 5.2))
-    for iso in ["USA", "JPN", "KOR", "CHN"]:
+    for iso in ["USA", "DEU", "JPN", "KOR", "CHN"]:
         s = gdp[iso]
         yrs = sorted(s)
-        ax.plot(yrs, [s[y] for y in yrs], color=C[iso], lw=2.2 if iso == "CHN" else 1.7,
+        ax.plot(yrs, [s[y] for y in yrs], color=C[iso], lw=2.2 if iso == "CHN" else 1.5,
                 label=NAME[iso])
     for th, lab in [(5000, "$5,000"), (10000, "$1万"), (20000, "$2万"), (30000, "$3万"), (50000, "$5万")]:
         ax.axhline(th, color="#cbd5e1", lw=0.7, ls="--")
@@ -58,7 +58,7 @@ def chart1_trajectory():
     ax.set_xlim(1960, 2026)
     ax.yaxis.set_major_formatter(FuncFormatter(lambda x, _: f"{x:,.0f}"))
     ax.set_ylabel("人均GDP(现价美元,对数轴)")
-    ax.set_title("图1  中日韩美名义人均GDP轨迹(1960-2025):只有美国名义走完5千→5万美元全程", fontsize=12, pad=12)
+    ax.set_title("图1  中日韩美德名义人均GDP轨迹(1960-2025):仅美(2011)德(2021)名义走完5千→5万美元全程", fontsize=12, pad=12)
     ax.legend(frameon=False, loc="upper left", fontsize=10)
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
@@ -69,10 +69,10 @@ def chart1_trajectory():
 def chart2_aligned():
     gdp = load("gdp_pc_usd")
     fig, ax = plt.subplots(figsize=(9.2, 5.0))
-    for iso in ["USA", "JPN", "KOR", "CHN"]:
+    for iso in ["USA", "DEU", "JPN", "KOR", "CHN"]:
         s, t0 = gdp[iso], T5K[iso]
         xs = [y - t0 for y in sorted(s) if 0 <= y - t0 <= 36]
-        ax.plot(xs, [s[t0 + x] for x in xs], color=C[iso], lw=2.2 if iso == "CHN" else 1.7,
+        ax.plot(xs, [s[t0 + x] for x in xs], color=C[iso], lw=2.2 if iso == "CHN" else 1.5,
                 label=f"{NAME[iso]}(t0={t0})")
     for th in [10000, 20000, 30000, 50000]:
         ax.axhline(th, color="#cbd5e1", lw=0.7, ls="--")
