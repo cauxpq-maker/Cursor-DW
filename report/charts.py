@@ -19,20 +19,21 @@ GRAY = "#64748b"
 
 
 def chart_volume_vs_price():
-    """图1：量增价跌——2026暑期核心量价指标同比变化"""
+    """图1：量增价跌——2026暑期核心量价指标同比变化（含7月实绩）"""
     labels = [
-        "铁路旅客发送量（7-8月）",
-        "国内航线旅客量",
+        "免签入境外国人（上半年）",
         "境内游预订出游人次",
         "跨省游热度",
         "亲子游预订量",
-        "7月上旬机票预订均价",
-        "国内机票均价(不含税)",
-        "三亚酒店平均支付价",
+        "8月机票预订量（截至7/29）",
+        "7月民航旅客量（单月纪录）",
+        "7月国内经济舱均价（实绩）",
+        "7月全国酒店RevPAR",
+        "7月全国酒店ADR",
         "经济型酒店RevPAR(暑期首周)",
-        "中档酒店RevPAR(暑期首周)",
+        "三亚酒店平均支付价",
     ]
-    values = [7, 8, 30, 22.4, 31, -20, -11, -20, -8.2, -7.8]
+    values = [30.6, 30, 22.4, 31, 7, 3.7, -0.7, -2.8, -3.7, -8.2, -20]
     colors = [BLUE if v > 0 else RED for v in values]
 
     fig, ax = plt.subplots(figsize=(9, 4.8))
@@ -46,7 +47,7 @@ def chart_volume_vs_price():
     ax.axvline(0, color="#0f172a", lw=0.8)
     ax.set_xlim(-32, 42)
     ax.set_xlabel("同比变化（%）")
-    ax.set_title("图1  2026年暑期旅游市场“量增价跌”：客流指标与价格指标同比变化", fontsize=12, pad=12)
+    ax.set_title("图1  2026年暑期旅游市场“量增价跌”：客流指标与价格指标同比变化（8月上旬更新）", fontsize=12, pad=12)
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
     fig.savefig(os.path.join(OUT, "chart1_volume_price.png"), dpi=200)
