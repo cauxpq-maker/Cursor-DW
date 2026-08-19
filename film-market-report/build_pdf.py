@@ -109,13 +109,13 @@ COVER = """
     <div><span>◆</span>大盘：2025年票房518.32亿元（+21.95%），《哪吒2》以154.46亿单片拉动近三成</div>
     <div><span>◆</span>制度：获"龙标"影片同比腰斩至373部，供给收缩成为产业最大风险</div>
     <div><span>◆</span>人群：情绪对位取代类型偏好，"平视小人物"美学接管青年文化</div>
+    <div><span>◆</span>专题：2026年《牛来》从7千元翻至2千万元，照亮审查只拦红线、院线靠短视频发现内容的缝隙</div>
     <div><span>◆</span>冲击：微短剧产值约1000亿元、接近电影票房两倍，2025年为"AI短剧元年"</div>
-    <div><span>◆</span>全球：全球票房约335.5亿美元，影史首次由非好莱坞影片夺得年度冠军</div>
-    <div><span>◆</span>镜鉴：韩国本土片份额跌至40%，为中国提供"压力测试预演"</div>
+    <div><span>◆</span>全球：全球票房约335.5亿美元；韩国本土片份额跌至40%，为中国提供压力测试预演</div>
   </div>
   <div class="meta">
     <div>报告期间：数据截至2025年度行业统计（部分为2026年初发布口径）</div>
-    <div>编制日期：2026年8月18日</div>
+    <div>编制日期：2026年8月19日（《牛来》专题跟踪至8月18日）</div>
     <div>数据来源：国家电影局、猫眼研究院、灯塔专业版、DataEye研究院、韩国电影振兴委员会（KOFIC）、Gower Street Analytics、Box Office Mojo 及公开媒体报道（详见文末参考资料）</div>
   </div>
 </div>
@@ -178,10 +178,21 @@ with open(HTML, "w", encoding="utf-8") as f:
     f.write(html)
 print("HTML written:", HTML)
 
-subprocess.run([
+proc = subprocess.Popen([
     "google-chrome", "--headless=new", "--disable-gpu", "--no-sandbox",
-    "--user-data-dir=/tmp/chrome-pdf-profile",
+    "--user-data-dir=/tmp/chrome-pdf-profile-niulai",
     f"--print-to-pdf={PDF}", "--no-pdf-header-footer",
     f"file://{HTML}",
-], check=True, timeout=120)
-print("PDF written:", PDF)
+])
+for _ in range(40):
+    if os.path.exists(PDF) and os.path.getsize(PDF) > 100000:
+        import time
+        time.sleep(2)
+        proc.kill()
+        break
+    import time
+    time.sleep(1)
+else:
+    proc.kill()
+    raise RuntimeError("PDF was not written in time")
+print("PDF written:", PDF, os.path.getsize(PDF))

@@ -164,10 +164,34 @@ def chart5():
     plt.close(fig)
 
 
+def chart6():
+    """图6:《牛来》上映后累计票房轨迹(2026年8月)。"""
+    labels = ["8/5\n上映首日", "8/14\n出圈前", "8/15\n热搜日", "8/16", "8/17", "8/18"]
+    box = [0.34, 0.77, 60, 550, 1324, 2000]
+
+    fig, ax = plt.subplots(figsize=(8.4, 4.4))
+    ax.plot(range(len(labels)), box, color=RED, marker="o", linewidth=2.2, markersize=7)
+    ax.set_yscale("log")
+    for i, y in enumerate(box):
+        label = f"{y:g}万" if y >= 1 else f"{y}万"
+        ax.text(i, y * 1.35, label, ha="center", fontsize=9, color=NAVY)
+    ax.set_xticks(range(len(labels)))
+    ax.set_xticklabels(labels)
+    ax.set_ylabel("累计票房（万元，对数轴）")
+    ax.set_ylim(0.15, 8000)
+    ax.set_title("图6  《牛来》累计票房（2026年8月5—18日）：前十日不足万元，热搜后两周内突破2000万",
+                 fontsize=11.5, pad=12)
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUT, "chart6_niulai_boxoffice.png"), dpi=200)
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     chart1()
     chart2()
     chart3()
     chart4()
     chart5()
+    chart6()
     print("charts saved to", OUT)
