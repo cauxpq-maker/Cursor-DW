@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "total_investment": 4578.46,
+  "avg_ebt_3_18": 3593.2,
+  "min_ebt_3_18": 3252.35,
+  "avg_net_3_18": 2694.9,
+  "payback_ops": 1.64,
+  "year3_revenue": 6628.14,
+  "year3_ebt": 3252.35,
+  "errors": []
+}
