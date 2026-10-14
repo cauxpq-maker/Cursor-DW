@@ -159,10 +159,90 @@ def chart_telecom_capex():
     plt.close(fig)
 
 
+def chart_market_space():
+    """图6：六张网市场化成熟度与“十五五”可经营空间"""
+    nets = ["物流网", "新一代通信网", "算力网", "新型电网", "国家水网", "城市地下管网"]
+    mature = [4.5, 4.5, 3.5, 3.0, 2.0, 1.5]
+    space = [4.5, 3.5, 5.0, 4.0, 3.0, 2.5]
+    fig, ax = plt.subplots(figsize=(9.6, 4.6))
+    y = list(range(len(nets)))[::-1]
+    ax.barh([i + 0.18 for i in y], mature, height=0.32, color=GRAY, label="当前可经营现金流成熟度")
+    ax.barh([i - 0.18 for i in y], space, height=0.32, color=BLUE, label="“十五五”市场化拓展空间")
+    ax.set_yticks(y)
+    ax.set_yticklabels(nets, fontsize=11)
+    ax.set_xlim(0, 6)
+    ax.set_xlabel("评估分（1–5，本报告结构化判断，非官方评级）")
+    ax.set_title("图6  六张网市场化：物流和通信已经能收费，算力和电网的增量空间更大", fontsize=12, pad=10)
+    ax.legend(frameon=False, loc="lower right")
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUT, "chart6_market_space.png"), dpi=200)
+    plt.close(fig)
+
+
+def chart_five_cities():
+    """图7：五城六网结构化评估"""
+    import numpy as np
+
+    dims = ["水网", "新型电网", "算力网", "通信网", "地下管网", "物流网"]
+    cities = ["深圳\n东南", "成都\n西南", "天津\n华北", "西安\n西北", "沈阳\n东北"]
+    data = {
+        "深圳\n东南": [4, 5, 5, 5, 4, 4],
+        "成都\n西南": [4, 5, 5, 4, 4, 5],
+        "天津\n华北": [4, 4, 3, 3, 3, 5],
+        "西安\n西北": [4, 3, 4, 3, 3, 4],
+        "沈阳\n东北": [3, 3, 3, 3, 3, 4],
+    }
+    colors = [NAVY, BLUE, GREEN, AMBER, RED]
+    x = np.arange(len(dims))
+    width = 0.15
+    fig, ax = plt.subplots(figsize=(10, 4.6))
+    for i, (city, color) in enumerate(zip(cities, colors)):
+        ax.bar(x + (i - 2) * width, data[city], width, label=city.replace("\n", "·"), color=color)
+    ax.set_xticks(x)
+    ax.set_xticklabels(dims)
+    ax.set_ylim(0, 6)
+    ax.set_ylabel("评估分（1–5）")
+    ax.set_title("图7  五城六网评估：东南、西南领先，东北、西北的差距集中在算力和通信", fontsize=12, pad=10)
+    ax.legend(ncol=5, frameon=False, fontsize=9, loc="upper center", bbox_to_anchor=(0.5, -0.14))
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUT, "chart7_five_cities.png"), dpi=200, bbox_inches="tight")
+    plt.close(fig)
+
+
+def chart_tier_county():
+    """图9：一线城市与县城能力指数"""
+    dims = ["算力可及", "通信能力", "供电质量", "供水保障", "管网智治", "物流能级"]
+    tier = [100, 100, 100, 100, 100, 100]
+    county = [30, 62, 88, 74, 35, 48]
+    import numpy as np
+    x = np.arange(len(dims))
+    width = 0.36
+    fig, ax = plt.subplots(figsize=(9.6, 4.4))
+    ax.bar(x - width / 2, tier, width, color=NAVY, label="一线城市（指数=100）")
+    ax.bar(x + width / 2, county, width, color=AMBER, label="县城/县域综合水平")
+    for i, v in enumerate(county):
+        ax.text(i + width / 2, v + 2, str(v), ha="center", fontsize=9)
+    ax.set_xticks(x)
+    ax.set_xticklabels(dims)
+    ax.set_ylim(0, 120)
+    ax.set_ylabel("相对指数（一线城市=100）")
+    ax.set_title("图8  一线城市与县城：通达差距已缩小，算力和管网智治差距仍然很大", fontsize=12, pad=10)
+    ax.legend(frameon=False)
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUT, "chart8_tier_county.png"), dpi=200)
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     chart_investment_scale()
     chart_funding_tools()
     chart_dc_capacity()
     chart_token_vs_compute()
     chart_telecom_capex()
+    chart_market_space()
+    chart_five_cities()
+    chart_tier_county()
     print("charts generated ->", OUT)
