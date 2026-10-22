@@ -6,6 +6,7 @@
 
 | 文件 | 说明 |
 | --- | --- |
+| `旅顺口区海产品养殖加工产业专题分析报告（完整版）.docx` | 可编辑 Word 全文（标题可导航、表格可改、8 张图已嵌入） |
 | `旅顺口区海产品养殖加工产业专题分析报告（完整版）.pdf` | 主报告 PDF（含两菜专项与数据口径附件） |
 | `annex/旅顺口区两菜产业发展报告（独立报送稿）.pdf` | 从主报告拆出的两菜专项 |
 | `report.html` | 排版源文件 |
@@ -19,6 +20,7 @@
 python3 charts.py
 python3 build_annex.py
 python3 build_pdf.py
+python3 build_docx.py
 ```
 
 依赖：matplotlib、openpyxl、weasyprint。中文字体使用文泉驿微米黑。
